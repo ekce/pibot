@@ -56,7 +56,7 @@ client.on(
 			if (config.admins.includes(msg.author.id)) {
 				console.log(`pibot: ${msg.author.username}(${msg.content})`);
 				if (msg.content === 'ip') {
-					msg.reply(JSON.stringify(networkInterfaces));
+					msg.reply(networkInterfaces[config.dev][0]['address']);
 				}
 				if (msg.content === 'iplong') {
 					msg.reply(JSON.stringify(networkInterfaces));
