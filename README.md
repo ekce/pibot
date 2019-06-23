@@ -5,11 +5,11 @@ In order to run it you will need to provide a configuration file.
 ```
 var config = {
 	//Port number for ssh connection.
-	port: '55722',
-	//User Name for ssh connection.
-	user: 'alarm',
+	port: <PORT NUMBER>,
+	//User name for ssh connection.
+	user: '<USER NAME>',
 	//Path for ssh key.
-	sshkey: '~/.ssh/mopi',
+	sshkey: '~/.ssh/<KEY>',
 	//Network device.
 	dev: 'wlp3s0',
 	//Owner gets notifications from the bot.
