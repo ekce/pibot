@@ -2,7 +2,7 @@
   "name": "pibot",
   "version": "1.0.0",
   "description": "A simple discord bot for the raspberry pi",
-  "main": "index.js",
+  "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
