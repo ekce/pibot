@@ -33,12 +33,12 @@ After=network.target
 
 [Service]
 Type=idle
-WorkingDirectory=/home/alarm/pibot
+WorkingDirectory=/home/<USER NAME>/pibot
 ExecStart=/usr/bin/npm start
 Restart=always
 RestartSec=5
 StartLimitIntervalSec=0
-User=alarm
+User=<USER NAME>
 
 [Install]
 WantedBy=multi-user.target
