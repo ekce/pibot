@@ -24,7 +24,7 @@ var config = {
 module.exports = config;
 ```
 
-Here is a sample systemd unit file that can be used to start the bot.
+Here is a sample systemd unit file that can be used to start the bot (using NVM).
 `pibot.service`:
 ```
 [Unit]
@@ -33,13 +33,16 @@ After=network.target
 
 [Service]
 Type=idle
-WorkingDirectory=/home/<USER NAME>/pibot
-ExecStart=/usr/bin/npm start
+Environment=NODE_VERSION=12
+ExecStart=/home/alarm/.nvm/nvm-exec node ./server.js
+WorkingDirectory=/home/alarm/pibot
 Restart=always
 RestartSec=5
-StartLimitIntervalSec=0
-User=<USER NAME>
+StartLimitInterval=0
+User=alarm
 
 [Install]
 WantedBy=multi-user.target
 ```
+
+You can view logs with `journalctl -u pibot`.
