@@ -8,6 +8,10 @@
   },
   "author": "",
   "license": "GPLv3",
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:ekce/pibot.git"
+  },
   "dependencies": {
     "discord.js": "^11.5.1"
   }
