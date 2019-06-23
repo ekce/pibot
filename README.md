@@ -12,14 +12,14 @@ var config = {
 	sshkey: '~/.ssh/mopi',
 	//Network device.
 	dev: 'wlp3s0',
-    //Owner gets notifications from the bot.
-    owner: <OWNER SNOWFLAKE>,
-    //Admins can query the bot for ip address.
-    admins: [<ADMIN SNOWFLAKE>, <ADMIN SNOWFLAKE>, <ADMIN SNOWFLAKE>],
-    //Channel it announces on when it's live.
-    channel: <CHANNEL SNOWFLAKE>,
-    //Discord API key.
-    discordAPIKey: <DISCORD API KEY>
+	//Owner gets notifications from the bot.
+	owner: <OWNER SNOWFLAKE>,
+	//Admins can query the bot for ip address.
+	admins: [<ADMIN SNOWFLAKE>, <ADMIN SNOWFLAKE>, <ADMIN SNOWFLAKE>],
+	//Channel it announces on when it's live.
+	channel: <CHANNEL SNOWFLAKE>,
+	//Discord API key.
+	discordAPIKey: <DISCORD API KEY>
 };
 module.exports = config;
 ```
