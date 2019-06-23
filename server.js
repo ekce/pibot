@@ -14,13 +14,14 @@ const Discord = require('discord.js');
 const client = new Discord.Client();
 
 
+//String commands/templates
 function logNameID(msg) {
 	return `id: ${msg.author.id} name: ${msg.author.username}`;
 }
-
 function sshcmd() {
 	return `ssh -i ${config.sshkey} -p ${config.port} ${config.user}@${networkInterfaces[config.dev][0]['address']}`;
 }
+
 
 client.on(
 	'ready',
@@ -52,8 +53,7 @@ client.on(
 			 msg.content === 'iplong' ||
 			 msg.content === 'ssh')
 			) {
-			// msg.reply(networkInterfaces["wlp3s0"][0]['address'])
-			if (config.admins.includes(msg.author.id)) { //change to admins
+			if (config.admins.includes(msg.author.id)) {
 				console.log(`pibot: ${msg.author.username}(${msg.content})`);
 				if (msg.content === 'ip') {
 					msg.reply(JSON.stringify(networkInterfaces));
