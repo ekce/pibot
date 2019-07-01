@@ -1,5 +1,3 @@
-#!/usr/bin/env node
-
 'use strict';
 
 //Config file
@@ -12,6 +10,33 @@ const networkInterfaces = os.networkInterfaces();
 // NPM libs:
 const Discord = require('discord.js');
 const client = new Discord.Client();
+
+
+const gpio = require('rpi-gpio');
+const gpiop = gpio.promise;
+const wait = require('util').promisify(setTimeout);
+
+var status = false;
+gpio.on('change', function(channel, value) {
+	//status change 
+	if (value === !status) {
+		status = value;
+		console.log(`Room is ${status ? 'open.' : 'closed.'}`);
+		//382333745769873421 - sum general
+		//475141498778943489 - is the room open
+		client.channels.get('475141498778943489').send(`Room is ${status ? 'open.' : 'closed.'}`);
+	}
+});
+
+
+var ltest = async () => {
+	console.log('start');
+	await gpiop.setup(7, gpio.DIR_IN, gpio.EDGE_BOTH);
+	status = await gpiop.read(7);
+}
+
+ltest();
+
 
 
 //String commands/templates
@@ -36,17 +61,17 @@ client.on(
 client.on(
 	'message',
 	msg => {
-		if (msg.content === 'ping') {
-			msg.reply('Pong!');
-		}
+		// if (msg.content === 'ping') {
+		// 	msg.reply('Pong!');
+		// }
 
-		if (msg.content === 'bark') {
-			msg.reply(
-				'BARK BARK BARK BARK BARK BARK BARK BARK BARK ' +
-				'BARK BARK BARK BARK BARK BARK BARK BARK BARK ' +
-				'BARK BARK BARK BARK BARK BARK BARK BARK BARK '
-				);
-		}
+		// if (msg.content === 'bark') {
+		// 	msg.reply(
+		// 		'BARK BARK BARK BARK BARK BARK BARK BARK BARK ' +
+		// 		'BARK BARK BARK BARK BARK BARK BARK BARK BARK ' +
+		// 		'BARK BARK BARK BARK BARK BARK BARK BARK BARK '
+		// 		);
+		// }
 
 		if (msg.channel.type === 'dm' &&
 			(msg.content === 'ip' ||
@@ -79,3 +104,16 @@ client.on(
 client.login(config.discordAPIKey)
  .then(() => console.log('pibot: Started.'))
  .catch(() => console.error('pibot: Crashed.'));
+
+
+process.on('SIGTERM', () => process.emit('cleanStop'));
+process.on('SIGINT', () => process.emit('cleanStop'));
+process.on('uncaughtException', () => process.emit('cleanStop'));
+process.on('SIGUSR1', () => process.emit('cleanStop'));
+process.on('SIGUSR2', () => process.emit('cleanStop'));
+
+process.on('cleanStop', () => {
+	gpio.destroy();
+	console.log('terminated');
+	process.exit(0);
+});
