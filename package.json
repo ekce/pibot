@@ -1,19 +1,19 @@
 {
   "name": "pibot",
   "version": "1.0.0",
-  "description": "A simple discord bot for the raspberry pi",
+  "description": "A simple Raspberry Pi Discord bot for office management",
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "",
+  "author": "Mohamar Rios Flores",
   "license": "GPL-3.0-only",
   "repository": {
     "type": "git",
     "url": "git@github.com:ekce/pibot.git"
   },
   "dependencies": {
-    "discord.js": "^11.5.1",
+    "discord.js": "^14.1.2",
     "rpi-gpio": "^2.1.3"
   }
 }

@@ -1,21 +1,23 @@
 'use strict';
 
-//Config file
+// Config file
 const config = require('./config');
 
-// Node Core libs:
+// Node Core libs
 const os = require('os');
 const networkInterfaces = os.networkInterfaces();
 
-// NPM libs:
-const Discord = require('discord.js');
-const client = new Discord.Client();
+// Discord API libs and config
+const {Client, IntentsBitField, Partials, ChannelType} = require('discord.js');
+const myIntents = new IntentsBitField();
+myIntents.add(IntentsBitField.Flags.Guilds, IntentsBitField.Flags.DirectMessages, IntentsBitField.Flags.GuildMessages)
+const client = new Client({ intents: myIntents, partials: [Partials.Channel] });
 
 // GPIO libs
 const gpio = require('rpi-gpio');
 const gpiop = gpio.promise;
 
-//String commands/templates
+// String commands/templates
 const ipAddressV4 = networkInterfaces[config.dev][0]['address'];
 
 function roomStatus() {
@@ -30,17 +32,14 @@ function sshcmd() {
 
 var status = false;
 
-
-
-//Light detection status change
+// Light detection status change
 gpio.on('change', function(channel, value) {
 	if (value === !status) {
 		status = value;
 		console.log('pibot:', roomStatus());
-		client.channels.get(config.channel).send(roomStatus());
+		client.channels.cache.get(config.channel).send(roomStatus());
 	}
 });
-
 
 var setupGPIO = async () => {
 	console.log('pibot:', 'Setting up GPIO');
@@ -51,19 +50,18 @@ var setupGPIO = async () => {
 setupGPIO().catch(console.error);
 
 
-
-//Client event handling
-client.on(
+// Client event handling
+client.once(
 	'ready',
-	() => {
-		console.log('pibot:', 'Logged in as', client.user.tag);
+	(c) => {
+		console.log('pibot:', 'Logged in as', c.user.tag);
 	}
 );
 
 client.on(
-	'message',
+	'messageCreate',
 	msg => {
-		if (msg.channel.type === 'dm' &&
+		if (msg.channel.type === ChannelType.DM &&
 			(msg.content === 'ip' ||
 			 msg.content === 'iplong' ||
 			 msg.content === 'ssh' ||
@@ -95,10 +93,10 @@ client.on(
 	}
 );
 
+
 client.login(config.discordAPIKey)
  .then(() => console.log('pibot:', 'Started'))
  .catch(() => console.error('pibot:', 'Failed to Start'));
-
 
 
 process.on(

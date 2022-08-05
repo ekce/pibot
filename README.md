@@ -28,12 +28,12 @@ Here is a sample systemd unit file that can be used to start the bot (using NVM)
 `pibot.service`:
 ```
 [Unit]
-Description=A simple discord bot
+Description=A simple Raspberry Pi Discord bot for office management
 After=network.target
 
 [Service]
 Type=idle
-Environment=NODE_VERSION=12
+Environment=NODE_VERSION=18.7.0
 ExecStart=/home/alarm/.nvm/nvm-exec node ./server.js
 WorkingDirectory=/home/alarm/pibot
 Restart=always
