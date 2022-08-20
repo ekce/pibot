@@ -18,7 +18,9 @@ const gpio = require('rpi-gpio');
 const gpiop = gpio.promise;
 
 // String commands/templates
-const ipAddressV4 = networkInterfaces[config.dev][0]['address'];
+function ipv4() {
+	return  networkInterfaces[config.dev][0]['address'];
+}
 
 function roomStatus() {
 	return `Room is ${status ? 'open.' : 'closed.'}`;
@@ -27,7 +29,7 @@ function logNameID(msg) {
 	return `id: ${msg.author.id} name: ${msg.author.username}`;
 }
 function sshcmd() {
-	return `ssh -i ${config.sshkey} -p ${config.port} ${config.user}@${ipAddressV4}`;
+	return `ssh -i ${config.sshkey} -p ${config.port} ${config.user}@${ipv4()}`;
 }
 
 var status = false;
@@ -70,7 +72,7 @@ client.on(
 			if (config.admins.includes(msg.author.id)) {
 				console.log('pibot:', msg.author.username, ':', msg.content);
 				if (msg.content === 'ip') {
-					msg.reply('`' + ipAddressV4 + '`').catch(console.error);
+					msg.reply('`' + ipv4() + '`').catch(console.error);
 				}
 				if (msg.content === 'iplong') {
 					msg.reply('```' + JSON.stringify(networkInterfaces, null, '\t') + '```').catch(console.error);
